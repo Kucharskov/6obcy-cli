@@ -32,12 +32,12 @@ Initialize connection (always first packet)
 0{"sid":"XXXXXXXXXXXXXXX","upgrades":[],"pingInterval":25000,"pingTimeout":40000}
 ```
 
-Connection accept
+Connection accept (most second packet) - contains a hash used to sign a packet
 ```
 4{"ev_name":"cn_acc","ev_data":{"conn_id":"XXXXXXXXXXXXXXX","hash":"127#0#0#1"}}
 ```
 
-New chat proposal
+New chat proposal - ckey is used for used in almost all client packets
 ```
 4{"ev_name":"talk_s","ev_data":{"cid":000000000,"ckey":"0:000000000_XXXXXXXXXXXXX","flaged":false}}
 ```
@@ -74,7 +74,7 @@ Client init parameters
 4{"ev_name":"_cinfo","ev_data":{"cvdate":"2017-08-01","mobile":false,"cver":"v2.5","adf":"ajaxPHP","hash":"127#0#0#1","testdata":{"ckey":0,"recevsent":false}}}
 ```
 
-Conversation request
+Conversation request - "loc" have a predefined values coressponding to voivodeships (Silesian is 7)
 ```
 4{"ev_name":"_sas","ev_data":{"channel":"main","myself":{"sex":0,"loc":0},"preferences":{"sex":0,"loc":0}},"ceid":0}
 ```
@@ -110,7 +110,7 @@ Random topic request
 4{"ev_name":"_randtopic","ev_data":{"ckey":"0:000000000_XXXXXXXXXXXXX"},"ceid":0}
 ```
 
-I really dont know, but i send it too
+I really dont know, but i send it too as original client sends
 ```
 4{"ev_name":"_owack"}
 ```
