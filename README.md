@@ -29,9 +29,7 @@ After a lot of conversations to generate traffic and hours of analysis of the ge
 
 Initialize connection (always first packet)
 ```
-josn
 0{"sid":"XXXXXXXXXXXXXXX","upgrades":[],"pingInterval":25000,"pingTimeout":40000}
-
 ```
 
 Connection accept
@@ -120,4 +118,4 @@ I really dont know, but i send it too
 ### Packets leading number
 Each package has a leading number. These numbers are in accordance with the [engine.io protcol](https://github.com/socketio/engine.io-protocol) documentation that was used on the site.
 
-The code also includes the required "heartbeat" mechanism, which maintains the client-server connection. It consists of sending at equal intervals a message with code "2" to which the server responds with a message with code "3".
+The code also includes the required "heartbeat" mechanism, which maintains the client-server connection. It consists of sending at equal intervals a message with code ``2`` to which the server responds with a message with code ``3``.
