@@ -3,6 +3,7 @@
 from elements.DataHandler import *
 from elements.ConnectionHandler import *
 from cmd import Cmd
+from time import sleep
 
 
 class Client(Cmd):
@@ -87,11 +88,11 @@ class Client(Cmd):
 
     def quitTalk(self) -> None:
         """ Sends a prepared packet to quit from conversation """
-        
+
         if not self.dataHandler.get("talking"):
             print("[!] Nie jesteś połączony!")
             return
-            
+
         ckey = self.dataHandler.get("ckey")
         data = {
             "ckey": ckey
@@ -100,7 +101,7 @@ class Client(Cmd):
 
     def reportTalk(self) -> None:
         """ Sends a prepared packet to report actual stranger """
-        
+
         if not self.dataHandler.get("talking"):
             print("[!] Nie jesteś połączony!")
             return
@@ -143,7 +144,10 @@ class Client(Cmd):
                 self.quitTalk()
 
             elif cmd == "next":
-                self.quitTalk()
+                if self.dataHandler.get("talking"):
+                    self.quitTalk()
+
+                sleep(0.25)
                 self.joinTalk()
 
             elif cmd == "report":
@@ -156,7 +160,7 @@ class Client(Cmd):
                 print("[*] Aktualnie połączonych: {}".format(self.dataHandler.get("count")))
 
             elif cmd == "exit":
-                print("[*] Bezpieczne zamykanie połączenia...")
+                print("[*] Zamykanie połączenia...")
                 return True
 
             else:
