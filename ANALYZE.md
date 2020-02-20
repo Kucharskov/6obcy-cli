@@ -1,14 +1,14 @@
 # 6obcy analyze
 
 ## The idea
-On 6obcy.org chat I met a lot of people, including my ex-fiancée, who was supposed to support me in creating this project. From time to time I look there writing with people. One day I found out that I will make a day-long chart to know when there are most people to know.
+On 6obcy.org chat I met a lot of people, including my ex-fiancée, who was supposed to support me in creating this project. From time to time I look there writing with people. One day, I thought to make a one day long chart to know when there are most people to talk to.
 That's how the analysis of the whole client side started.
 
 ## Legal aspect
 *some stuff needs to be added here* but the Administrator was notified.
 
 ## Analyze
-In the HTML code I noticed that the number of logged in users was always 1000, even though it was refreshed live on the page. It directed me to the JavaScript code and searching for the right request. When I found ``scriptBoxEio.js`` file, which was the only non-standard file besides default external libraries, I decided to analyze it.
+In the HTML code I noticed that the number of logged in users was always 1000, even though it was refreshed live on the page. It directed me to the JavaScript code and for the search of the right request. When I found ``scriptBoxEio.js`` file, which was the only non-standard file besides default external libraries, I decided to analyze it.
 
 The whole code was obfuscated, but it's nothing unusual. At the beginning of the file there was a large table containing 2341 elements. Unfortunately, content like ``lyqvxg``, ``vckligh``, ``ufmxgrlm`` didn't tell me much. Looking at the elements in the console, I noticed that they have more readable values. Deeper in the code I found the declared function ``_sz8x_dec`` and its calling on the array elements. I did a simple test, after calling the function on the value ``123abc`` and I got ``123zyx``. This led me to the Atbash - a monoalphabetic substitution cipher with reversed alphabet letters order. Thus, the above mentioned values turned into ``object``, ``exports``, ``function``, which meant that it is an array for mapping elements in the code.
 
