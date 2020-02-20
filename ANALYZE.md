@@ -14,15 +14,19 @@ The whole code was obfuscated, but it's nothing unusual. At the beginning of the
 
 I had to find decoders that can analyze over five thousand lines of semi-readable code. Finally I used [rumkin.com Atbash decoder](http://rumkin.com/tools/cipher/atbash.php), [JavaScript remapper](http://output.jsbin.com/hazevo/1) and lastly [JavaScript Beautifier](https://beautifier.io/), which made the code much easier to analyze. In this way I found the address and range of ports to the final endpoint and information about the engine.io used for communication. Unfortunately, the whole client code has been encapsulated so all I have to do is to run the developer console in Chrome and start the traffic analysis.
 
-## Packets structure and leading number
+## Packets structure, leading number, examples
 Each package has a leading number. These numbers are in accordance with the [engine.io protcol](https://github.com/socketio/engine.io-protocol) documentation which i found on the web. The documentation found describes the required "heartbeat" mechanism, which maintains the client-server connection. It consists of sending at equal intervals a message with code ``2`` to which the server responds with a message with code ``3``.
 
-## Server side packets
 After a lot of conversations to generate traffic and hours of analysis of the generated traffic I managed to describe most of the packets.
-
+### Server side packets
 Initialize connection (always first packet)
 ```
 0{"sid":"XXXXXXXXXXXXXXX","upgrades":[],"pingInterval":25000,"pingTimeout":40000}
+```
+
+Pong response
+```
+3
 ```
 
 Connection accept (most second packet) - contains a hash used to sign a packet
@@ -62,6 +66,11 @@ Advertisement
 ```
 
 ### Client side packets
+Ping request
+```
+2
+```
+
 Client init parameters
 ```
 4{"ev_name":"_cinfo","ev_data":{"cvdate":"2017-08-01","mobile":false,"cver":"v2.5","adf":"ajaxPHP","hash":"127#0#0#1","testdata":{"ckey":0,"recevsent":false}}}
