@@ -86,6 +86,12 @@ class Client(Cmd):
         while not self.dataHandler.get("talking"):
             sleep(0.25)
 
+        ckey = self.dataHandler.get("ckey")
+        data = {
+            "ckey": ckey
+        }
+        self.connection.writeData("_begacked", data, True)
+
     def quitTalk(self) -> None:
         """ Sends a prepared packet to quit from conversation """
 
