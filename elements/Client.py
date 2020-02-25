@@ -4,14 +4,22 @@ from elements.DataHandler import *
 from elements.ConnectionHandler import *
 from cmd import Cmd
 from time import sleep
+from requests import get
 
 
 class Client(Cmd):
 
     prompt = "> "
 
-    def __init__(self, url) -> None:
+    def __init__(self) -> None:
         super(Client, self).__init__()
+
+        connData = get("https://6obcy.org/ajax/addressData").json()
+        urlBase = "{}:{}".format(connData["host"], connData["port"])
+
+        url = "wss://{}/6eio/?EIO=3&transport=websocket".format(urlBase)
+        print("[*] Adres serwera: {}".format(urlBase))
+
         self.dataHandler = DataHandler()
         self.connection = ConnectionHandler(url, self.dataHandler)
         self.connection.connect()
