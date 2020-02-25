@@ -176,6 +176,9 @@ class Client(Cmd):
                 print("[*] Aktualnie połączonych: {}".format(self.dataHandler.get("count")))
 
             elif cmd == "exit":
+                if self.dataHandler.get("talking"):
+                    self.quitTalk()
+
                 print("[*] Zamykanie połączenia...")
                 return True
 
