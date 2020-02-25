@@ -112,6 +112,9 @@ class Client(Cmd):
             "ckey": ckey
         }
         self.connection.writeData("_distalk", data, True)
+        
+        while self.dataHandler.get("talking"):
+            sleep(0.25)
 
     def reportTalk(self) -> None:
         """ Sends a prepared packet to report actual stranger """
@@ -161,7 +164,6 @@ class Client(Cmd):
                 if self.dataHandler.get("talking"):
                     self.quitTalk()
 
-                sleep(0.25)
                 self.joinTalk()
 
             elif cmd == "report":
