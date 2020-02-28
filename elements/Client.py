@@ -9,7 +9,7 @@ from requests import get
 
 class Client(Cmd):
 
-    intro = '''[*] 6obcy-cli with love by M. Kucharskov (http://kucharskov.pl)\n[*] Wpisz ".help" po listę poleceń\n'''
+    intro = '''[*] 6obcy-cli with love by M. Kucharskov (http://kucharskov.pl)\n[*] Wpisz ".help" po listę dostępnych poleceń\n'''
     prompt = "> "
     use_rawinput = False
 
@@ -178,7 +178,15 @@ class Client(Cmd):
                 print("[*] Aktualnie połączonych: {}".format(self.dataHandler.get("count")))
 
             elif cmd == "help":
-                print("[*] Not implemented yet")
+                print('''Lista dostępnych poleceń:
+.join	rozpoczyna kolejną rozmowę
+.quit	kończy aktualną rozmowę
+.next	technicznie quit&join
+.report	zgłoszenie aktualnego rozmówcy
+.topic	wylosowanie tematu rozmowy
+.count	wyświetla ilość użytkowników
+.exit	zamka aplikację
+.help	wyświetla to okno listy poleceń''')
 
             elif cmd == "exit":
                 if self.dataHandler.get("talking"):
