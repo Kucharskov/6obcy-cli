@@ -178,15 +178,7 @@ class Client(Cmd):
                 print("[*] Aktualnie połączonych: {}".format(self.dataHandler.get("count")))
 
             elif cmd == "help":
-                print('''Lista dostępnych poleceń:
-.join	rozpoczyna kolejną rozmowę
-.quit	kończy aktualną rozmowę
-.next	technicznie quit&join
-.report	zgłoszenie aktualnego rozmówcy
-.topic	wylosowanie tematu rozmowy
-.count	wyświetla ilość użytkowników
-.exit	zamka aplikację
-.help	wyświetla to okno listy poleceń''')
+                self.do_help(None)
 
             elif cmd == "exit":
                 if self.dataHandler.get("talking"):
@@ -200,6 +192,23 @@ class Client(Cmd):
 
         else:
             self.sendMessage(line)
+
+
+    def do_help(self, arg) -> None:
+        """
+        Inherited command from Cmd object
+        Its overriden to hide strange help content and show my implementation
+        """
+        
+        print('''[*] Lista dostępnych poleceń:
+.join\t\trozpoczyna kolejną rozmowę
+.quit\t\tkończy aktualną rozmowę
+.next\t\ttechnicznie to quit&join
+.report\t\tzgłoszenie aktualnego rozmówcy
+.topic\t\twylosowanie tematu rozmowy
+.count\t\twyświetla ilość użytkowników na 6obcy
+.exit\t\tzamyka aplikację
+.help\t\twyświetla to okno listy poleceń''')
 
     def emptyline(self) -> None:
         """
