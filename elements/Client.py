@@ -62,7 +62,17 @@ class Client(Cmd):
             print("[!] Nie jesteś połączony!")
             return
 
+        #Homoglyph attack
+        #msg = msg.replace("a", "а")
+        #msg = msg.replace("A", "Α")
+        #msg = msg.replace("e", "е")
         #msg = msg.replace("E", "Ε")
+        #msg = msg.replace("i", "і")
+        #msg = msg.replace("I", "Ι")
+        #msg = msg.replace("d", "ԁ")
+        #msg = msg.replace("h", "һ")
+        #msg = msg.replace("H", "Н")
+
         ckey = self.dataHandler.get("ckey")
         idn = self.dataHandler.get("idn")
         data = {
