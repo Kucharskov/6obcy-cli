@@ -62,6 +62,7 @@ class Client(Cmd):
             print("[!] Nie jesteś połączony!")
             return
 
+        #msg = msg.replace("E", "Ε")
         ckey = self.dataHandler.get("ckey")
         idn = self.dataHandler.get("idn")
         data = {
