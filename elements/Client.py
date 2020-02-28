@@ -9,7 +9,9 @@ from requests import get
 
 class Client(Cmd):
 
+    intro = '''[*] 6obcy-cli with love by M. Kucharskov (http://kucharskov.pl)\n[*] Wpisz ".help" po listę poleceń\n'''
     prompt = "> "
+    use_rawinput = False
 
     def __init__(self) -> None:
         super(Client, self).__init__()
@@ -18,7 +20,7 @@ class Client(Cmd):
         urlBase = "{}:{}".format(connData["host"], connData["port"])
 
         url = "wss://{}/6eio/?EIO=3&transport=websocket".format(urlBase)
-        print("[*] Adres serwera: {}".format(urlBase))
+        self.intro += "[*] Adres serwera: {}".format(urlBase)
 
         self.dataHandler = DataHandler()
         self.connection = ConnectionHandler(url, self.dataHandler)
@@ -76,7 +78,7 @@ class Client(Cmd):
         if self.dataHandler.get("talking"):
             print("[!] Jesteś już połączony!")
             return
-            
+
         data = {
             "channel": "main",
             "myself": {
@@ -112,7 +114,7 @@ class Client(Cmd):
             "ckey": ckey
         }
         self.connection.writeData("_distalk", data, True)
-        
+
         while self.dataHandler.get("talking"):
             sleep(0.25)
 
@@ -174,6 +176,9 @@ class Client(Cmd):
 
             elif cmd == "count":
                 print("[*] Aktualnie połączonych: {}".format(self.dataHandler.get("count")))
+
+            elif cmd == "help":
+                print("[*] Not implemented yet")
 
             elif cmd == "exit":
                 if self.dataHandler.get("talking"):
