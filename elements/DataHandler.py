@@ -30,14 +30,19 @@ class DataHandler:
 
         elif type == "talk_s":
             """ Packet with new stranger chat proposal which script always accept """
-            print("[*] Połączono")
+            print("[*] Połączono z obcym")
             self.set("idn", 0)
             self.set("talking", True)
-            self.set("ckey", data["ev_data"]["ckey"])
+            ckey = data["ev_data"]["ckey"]
+            self.set("ckey", ckey)
+
+            if ckey.startswith("F"):
+                print("[!] Nawiązane połączenie wygląda na sztuczne, co świadczy o Twojej blokadzie!")
+                print("[!] Rozmówca może nie być prawdziwy, a niektóre polecenia moga nie działać.")
 
         elif type == "sdis":
             """ Packet with information about disconnecting from conversation """
-            print("[*] Rozmowa została zakończona!")
+            print("[*] Rozmowa została zakończona")
             self.set("talking", False)
             self.set("ckey", None)
 
@@ -66,4 +71,7 @@ class DataHandler:
             pass
 
         else:
-            print(data)
+            """ Other unexpected packet """
+            #print(data)
+            pass
+
