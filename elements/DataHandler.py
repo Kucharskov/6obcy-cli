@@ -5,6 +5,8 @@ class DataHandler:
 
     def __init__(self) -> None:
         self.data = {}
+        self.data["server"] = None
+        self.data["proxy"] = None
         self.data["talking"] = False
         self.data["ceid"] = 1
 

@@ -16,7 +16,27 @@ class ConnectionHandler:
         self.receiver = None
         self.heartbeat = None
         
-    def setup(self) -> None:
+    def connect(self, proxy: tuple = None) -> bool:
+        """
+        Create a connection to websocket (with proxy or not)
+        Also waits for first '0' config packet
+        Returns true or false if connection was succesfully
+        """
+        
+        try:
+            ws = None
+            if proxy == None:
+                ws = create_connection(self.url, enable_multithread=True)
+            else:
+                host, port = proxy
+                ws = create_connection(self.url, enable_multithread=True, http_proxy_host=host, http_proxy_port=port)
+        except:
+            return False
+
+        if self.ws != None:
+            self.disconnect()
+
+        self.ws = ws
         self.receiver = Receiver(self, self.dataHandler)
         self.heartbeat = Heartbeat(self)
         
@@ -26,13 +46,8 @@ class ConnectionHandler:
         self.receiver.start()
         self.heartbeat.setTimeout(data["pingInterval"])
         self.heartbeat.start()
-
-    def connect(self) -> None:
-        """ Create a connection to websocket, also waits for first '0' config packet """
-
-        self.ws = create_connection(self.url, enable_multithread=True)
-        self.setup()
-
+        
+        return True
 
     def disconnect(self) -> None:
         """ Disconnects websocket and stops all threads """
@@ -41,20 +56,7 @@ class ConnectionHandler:
         self.receiver.stop()
         self.heartbeat.stop()
         self.receiver.join()
-        self.heartbeat.join()
-        
-    def tryProxy(self, host: str, port: int) -> bool:
-    
-        try:
-            wsProxy = create_connection(self.url, enable_multithread=True, http_proxy_host=host, http_proxy_port=port)
-        except:
-            return False
-
-        self.disconnect()
-        self.ws = wsProxy
-        self.setup()
-        
-        return True
+        self.heartbeat.join()       
 
     def writeData(self, type: str, data: dict = None, count: bool = False) -> None:
         """ Sends a prepared packet with known type, optional data as dict and counter as 'ceid' element in packet """
