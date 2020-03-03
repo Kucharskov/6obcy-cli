@@ -15,14 +15,14 @@ class ConnectionHandler:
         self.dataHandler = dataHandler
         self.receiver = None
         self.heartbeat = None
-        
+
     def connect(self, proxy: tuple = None) -> bool:
         """
         Create a connection to websocket (with proxy or not)
         Also waits for first '0' config packet
         Returns true or false if connection was succesfully
         """
-        
+
         try:
             ws = None
             if proxy == None:
@@ -39,14 +39,14 @@ class ConnectionHandler:
         self.ws = ws
         self.receiver = Receiver(self, self.dataHandler)
         self.heartbeat = Heartbeat(self)
-        
+
         packet = self.readRawData()
         data = PacketParser.unpack(packet)
 
         self.receiver.start()
         self.heartbeat.setTimeout(data["pingInterval"])
         self.heartbeat.start()
-        
+
         return True
 
     def disconnect(self) -> None:

@@ -212,15 +212,15 @@ class Client(Cmd):
 
             elif cmd == "count":
                 print("[*] Aktualnie połączonych: {}".format(self.dataHandler.get("count")))
-                
+
             elif cmd == "proxy":
                 if len(params) > 0:
                     proxy = params[0]
                     self.connectProxy(proxy)
-                    
+
                 else:
                     print("[*] Nie podano serwera proxy!")
-                    
+
             elif cmd == "noproxy":
                 if self.dataHandler.get("talking"):
                     print("[!] Najpierw zakończ rozmowę!")
@@ -228,7 +228,7 @@ class Client(Cmd):
 
                 print("[*] Nawiązywanie bezpośredniego połączenia")
                 self.connection.connect()
-                self.dataHandler.set("server", None)
+                self.dataHandler.set("proxy", None)
 
             elif cmd == "help":
                 self.do_help(None)
@@ -246,7 +246,7 @@ class Client(Cmd):
                 print("[*] - hash: {}".format(self.dataHandler.get("hash")))
                 print("[*] - ckey: {}".format(self.dataHandler.get("ckey")))
                 print("[*] - proxy: {}".format(self.dataHandler.get("proxy")))
-                
+
             else:
                 print("[!] Nierozpoznana komenda")
 
@@ -259,7 +259,7 @@ class Client(Cmd):
         Inherited command from Cmd object
         Its overriden to hide strange help content and show my implementation
         """
-        
+
         print('''[*] Lista dostępnych poleceń:
 [*] Funkcje zwykłe
 .help\t\t\twyświetla to okno listy poleceń
