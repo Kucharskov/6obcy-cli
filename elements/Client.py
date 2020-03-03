@@ -166,6 +166,7 @@ class Client(Cmd):
         if line.startswith("."):
             line = line[1:]
             cmd = line.split(" ")[0]
+            params = line.split(" ")[1:]
 
             if cmd == "join":
                 self.joinTalk()
@@ -187,6 +188,26 @@ class Client(Cmd):
 
             elif cmd == "count":
                 print("[*] Aktualnie połączonych: {}".format(self.dataHandler.get("count")))
+                
+            elif cmd == "proxy":
+                if len(params) > 0:
+                    proxy = params[0]
+                    if proxy.find(":") < 0:
+                        print("[*] Parametr nie spełnia formatu host:port!")
+
+                    else:
+                        host, port = proxy.split(":")
+                        port = int(port)
+                        
+                        print("[*] Próba łączenia przez proxy: {}:{}".format(host, port))
+                        print("[*] Naciśnij Ctrl+C aby przerwać")
+                        if self.connection.tryProxy(host, port):
+                            print("[*] Połączono przez serwer proxy")
+                        else:
+                            print("[!] Wystapił problem podczas łączenia!")
+                    
+                else:
+                    print("[*] Nie podano serwera proxy!")
 
             elif cmd == "help":
                 self.do_help(None)
@@ -212,14 +233,15 @@ class Client(Cmd):
         """
         
         print('''[*] Lista dostępnych poleceń:
-.join\t\trozpoczyna kolejną rozmowę
-.quit\t\tkończy aktualną rozmowę
-.next\t\ttechnicznie to quit&join
-.report\t\tzgłoszenie aktualnego rozmówcy
-.topic\t\twylosowanie tematu rozmowy
-.count\t\twyświetla ilość użytkowników na 6obcy
-.exit\t\tzamyka aplikację
-.help\t\twyświetla to okno listy poleceń''')
+.join\t\t\trozpoczyna kolejną rozmowę
+.quit\t\t\tkończy aktualną rozmowę
+.next\t\t\ttechnicznie to quit&join
+.report\t\t\tzgłoszenie aktualnego rozmówcy
+.topic\t\t\twylosowanie tematu rozmowy
+.count\t\t\twyświetla ilość użytkowników na 6obcy
+.proxy host:port\tnawiązuje połączenie przez proxy
+.exit\t\t\tzamyka aplikację
+.help\t\t\twyświetla to okno listy poleceń''')
 
     def emptyline(self) -> None:
         """

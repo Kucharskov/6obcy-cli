@@ -13,14 +13,13 @@ class ConnectionHandler:
         self.url = url
         self.ws = None
         self.dataHandler = dataHandler
+        self.receiver = None
+        self.heartbeat = None
+        
+    def setup(self) -> None:
         self.receiver = Receiver(self, self.dataHandler)
         self.heartbeat = Heartbeat(self)
-
-    def connect(self) -> None:
-        """ Create a connection to websocket, also waits for first '0' config packet """
-
-        self.ws = create_connection(self.url, enable_multithread=True)
-
+        
         packet = self.readRawData()
         data = PacketParser.unpack(packet)
 
@@ -28,14 +27,34 @@ class ConnectionHandler:
         self.heartbeat.setTimeout(data["pingInterval"])
         self.heartbeat.start()
 
+    def connect(self) -> None:
+        """ Create a connection to websocket, also waits for first '0' config packet """
+
+        self.ws = create_connection(self.url, enable_multithread=True)
+        self.setup()
+
+
     def disconnect(self) -> None:
         """ Disconnects websocket and stops all threads """
 
         self.ws.close()
         self.receiver.stop()
-        self.receiver.join()
         self.heartbeat.stop()
+        self.receiver.join()
         self.heartbeat.join()
+        
+    def tryProxy(self, host: str, port: int) -> bool:
+    
+        try:
+            wsProxy = create_connection(self.url, enable_multithread=True, http_proxy_host=host, http_proxy_port=port)
+        except:
+            return False
+
+        self.disconnect()
+        self.ws = wsProxy
+        self.setup()
+        
+        return True
 
     def writeData(self, type: str, data: dict = None, count: bool = False) -> None:
         """ Sends a prepared packet with known type, optional data as dict and counter as 'ceid' element in packet """
