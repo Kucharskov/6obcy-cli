@@ -12,13 +12,11 @@ class PacketParser:
             return None
 
         data = data[1:]
-        data = data.replace("\'", "\"")
 
         if data == "":
             return None
 
-        jData = loads(data)
-        return jData
+        return loads(data)
 
     def pack(type: str, data: dict = None, ceid: int = None) -> str:
         """ Pack a string with know type of event. Regarding to reversed protocol - eventually adds a data and counter """
