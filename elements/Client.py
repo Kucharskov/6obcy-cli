@@ -157,6 +157,12 @@ class Client(Cmd):
         self.connection.writeData("_randtopic", data, True)
         
     def tryProxy(self, proxy) -> None:
+        """ Care about correct proxy format and pass that data to ConnecitonHandler """
+    
+        if self.dataHandler.get("talking"):
+            print("[!] Najpierw zakończ rozmowę!")
+            return
+    
         if proxy.find(":") < 0:
             print("[!] Parametr nie spełnia formatu host:port!")
 
@@ -167,7 +173,7 @@ class Client(Cmd):
             print("[*] Próba łączenia przez proxy: {}:{} (Ctrl+C aby przerwać)".format(host, port))
 
             if self.connection.tryProxy(host, port):
-                print("[*] Pomyślnie połączono przez serwer proxy")
+                print("[*] Pomyślnie połączono przez serwer pośredniczący")
             else:
                 print("[!] Wystapił problem podczas łączenia!")
 
