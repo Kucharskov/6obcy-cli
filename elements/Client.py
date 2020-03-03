@@ -155,6 +155,21 @@ class Client(Cmd):
             "ckey": ckey
         }
         self.connection.writeData("_randtopic", data, True)
+        
+    def tryProxy(self, proxy) -> None:
+        if proxy.find(":") < 0:
+            print("[!] Parametr nie spełnia formatu host:port!")
+
+        else:
+            host, port = proxy.split(":")
+            port = int(port)
+
+            print("[*] Próba łączenia przez proxy: {}:{} (Ctrl+C aby przerwać)".format(host, port))
+
+            if self.connection.tryProxy(host, port):
+                print("[*] Pomyślnie połączono przez serwer proxy")
+            else:
+                print("[!] Wystapił problem podczas łączenia!")
 
     def default(self, line: str) -> bool:
         """
@@ -192,19 +207,7 @@ class Client(Cmd):
             elif cmd == "proxy":
                 if len(params) > 0:
                     proxy = params[0]
-                    if proxy.find(":") < 0:
-                        print("[*] Parametr nie spełnia formatu host:port!")
-
-                    else:
-                        host, port = proxy.split(":")
-                        port = int(port)
-                        
-                        print("[*] Próba łączenia przez proxy: {}:{}".format(host, port))
-                        print("[*] Naciśnij Ctrl+C aby przerwać")
-                        if self.connection.tryProxy(host, port):
-                            print("[*] Połączono przez serwer proxy")
-                        else:
-                            print("[!] Wystapił problem podczas łączenia!")
+                    self.tryProxy(proxy)
                     
                 else:
                     print("[*] Nie podano serwera proxy!")
