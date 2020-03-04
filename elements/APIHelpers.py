@@ -15,14 +15,14 @@ class APIHelpers:
 
         except:
             return None
-        
+
         url = "wss://{}/6eio/?".format(adress)
         params = {
             "EIO": 3,
             "transport": "websocket"
         }
         url += urlencode(params)
-        
+
         return {
             "adress": adress,
             "url": url

@@ -24,7 +24,7 @@ class ConnectionHandler:
 
         try:
             ws = None
-            if proxy == None:
+            if proxy is None:
                 ws = create_connection(url, enable_multithread=True)
             else:
                 host, port = proxy
@@ -32,7 +32,7 @@ class ConnectionHandler:
         except:
             return False
 
-        if self.ws != None:
+        if self.ws is not None:
             self.disconnect()
 
         self.ws = ws
@@ -55,7 +55,7 @@ class ConnectionHandler:
         self.receiver.stop()
         self.heartbeat.stop()
         self.receiver.join()
-        self.heartbeat.join()       
+        self.heartbeat.join()
 
     def writeData(self, type: str, data: dict = None, count: bool = False) -> None:
         """ Sends a prepared packet with known type, optional data as dict and counter as 'ceid' element in packet """

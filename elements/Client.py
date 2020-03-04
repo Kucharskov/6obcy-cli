@@ -19,22 +19,22 @@ class Client(Cmd):
         self.dataHandler = DataHandler()
         self.connection = ConnectionHandler(self.dataHandler)
 
-        connectionData =  APIHelpers.getConnectionData()
+        connectionData = APIHelpers.getConnectionData()
         self.intro += "[*] Adres serwera: {}".format(connectionData["adress"])
 
         self.connection.connect(connectionData["url"])
         self.dataHandler.set("server", connectionData["adress"])
 
-    def reconnect(self, impersonate = False) -> None:
+    def reconnect(self, impersonate: bool = False) -> None:
         if self.dataHandler.get("talking"):
             print("[!] Najpierw zakończ rozmowę!")
             return
 
-        connectionData =  APIHelpers.getConnectionData()
+        connectionData = APIHelpers.getConnectionData()
 
         if impersonate:
-            proxy =  APIHelpers.getProxy()
-            if proxy == None:
+            proxy = APIHelpers.getProxy()
+            if proxy is None:
                 print("[!] Wystąpił problem pobierania danych proxy!")
                 return
 
@@ -222,7 +222,7 @@ class Client(Cmd):
 
             elif cmd == "count":
                 count = self.dataHandler.get("count")
-                if count == None:
+                if count is None:
                     count = "Brak danych"
 
                 print("[*] Aktualnie połączonych: {}".format(count))
@@ -265,7 +265,6 @@ class Client(Cmd):
 
         else:
             self.sendMessage(line)
-
 
     def do_help(self, arg) -> None:
         """
