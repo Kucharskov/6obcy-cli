@@ -222,7 +222,10 @@ class Client(Cmd):
                 self.randomizeTopic()
 
             elif cmd == "count":
-                print("[*] Aktualnie połączonych: {}".format(self.dataHandler.get("count")))
+                count = self.dataHandler.get("count")
+                if count == None:
+                    count = "Brak danych"
+                print("[*] Aktualnie połączonych: {}".format(count))
 
             elif cmd == "impersonate":
                 self.reconnect(True)

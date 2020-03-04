@@ -37,6 +37,7 @@ class APIHelpers:
             }
             url += urlencode(params)
             data = get(url).json()
+            print(data)
             adress = "{}:{}".format(data["ip"], data["port"])
 
         except:
