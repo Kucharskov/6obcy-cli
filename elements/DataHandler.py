@@ -39,8 +39,8 @@ class DataHandler:
             self.set("ckey", ckey)
 
             if ckey.startswith("F"):
-                print("[!] Nawiązane połączenie wygląda na sztuczne, co świadczy o Twojej blokadzie!")
-                print("[!] Rozmówca może nie być prawdziwy, a niektóre polecenia moga nie działać.")
+                print("[!] Nawiązane połączenie wygląda na fałszywe, niektóre polecenia mogą nie działać!")
+                print("[!] Jeżeli sytuacja się powtarza, spróbuj polecenia \".impersonate\"")
 
         elif type == "sdis":
             """ Packet with information about disconnecting from conversation """

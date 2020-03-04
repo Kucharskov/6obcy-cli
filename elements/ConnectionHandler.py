@@ -9,14 +9,13 @@ from websocket import create_connection
 
 class ConnectionHandler:
 
-    def __init__(self, url: str, dataHandler: DataHandler) -> None:
-        self.url = url
-        self.ws = None
+    def __init__(self, dataHandler: DataHandler) -> None:
         self.dataHandler = dataHandler
+        self.ws = None
         self.receiver = None
         self.heartbeat = None
 
-    def connect(self, proxy: tuple = None) -> bool:
+    def connect(self, url: str, proxy: tuple = None) -> bool:
         """
         Create a connection to websocket (with proxy or not)
         Also waits for first '0' config packet
@@ -26,10 +25,10 @@ class ConnectionHandler:
         try:
             ws = None
             if proxy == None:
-                ws = create_connection(self.url, enable_multithread=True)
+                ws = create_connection(url, enable_multithread=True)
             else:
                 host, port = proxy
-                ws = create_connection(self.url, enable_multithread=True, http_proxy_host=host, http_proxy_port=port)
+                ws = create_connection(url, enable_multithread=True, http_proxy_host=host, http_proxy_port=port)
         except:
             return False
 

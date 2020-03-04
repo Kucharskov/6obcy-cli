@@ -2,6 +2,7 @@
 
 from elements.DataHandler import *
 from elements.ConnectionHandler import *
+from elements.APIHelpers import *
 from cmd import Cmd
 from time import sleep
 from requests import get
@@ -15,17 +16,50 @@ class Client(Cmd):
 
     def __init__(self) -> None:
         super(Client, self).__init__()
-
-        connData = get("https://6obcy.org/ajax/addressData").json()
-        server = "{}:{}".format(connData["host"], connData["port"])
-        url = "wss://{}/6eio/?EIO=3&transport=websocket".format(server)
-        self.intro += "[*] Adres serwera: {}".format(server)
-
         self.dataHandler = DataHandler()
-        self.connection = ConnectionHandler(url, self.dataHandler)
+        self.connection = ConnectionHandler(self.dataHandler)
+
+        connectionData =  APIHelpers.getConnectionData()
+        self.intro += "[*] Adres serwera: {}".format(connectionData["adress"])
         
-        self.connection.connect()
-        self.dataHandler.set("server", server)
+        self.connection.connect(connectionData["url"])
+        self.dataHandler.set("server", connectionData["adress"])
+        
+    def reconnect(self, impersonate = False) -> None:
+        if self.dataHandler.get("talking"):
+            print("[!] Najpierw zakończ rozmowę!")
+            return
+    
+        connectionData =  APIHelpers.getConnectionData()
+        
+        if impersonate:
+            proxy =  APIHelpers.getProxy()
+            if proxy == None:
+                print("[!] Wystąpił problem pobierania danych proxy!")
+                return
+            
+            ip = proxy["ip"]
+            port = proxy["port"]
+
+            print("[*] Próba łączenia przez proxy: {} (Ctrl+C aby przerwać)".format(proxy["adress"]))
+
+            if self.connection.connect(connectionData["url"], (ip, port)):
+                print("[*] Pomyślnie połączono przez serwer pośredniczący")
+                self.dataHandler.set("proxy", proxy["adress"])
+                
+                print("[*] Adres serwera: {}".format(connectionData["adress"]))
+                self.dataHandler.set("server", connectionData["adress"])
+                
+            else:
+                print("[!] Wystapił problem podczas łączenia!")
+                
+            
+        else:
+            self.connection.connect(connectionData["url"])
+
+            print("[*] Adres serwera: {}".format(connectionData["adress"]))
+            self.dataHandler.set("server", connectionData["adress"])
+            self.dataHandler.set("proxy", None)
 
     def preloop(self) -> None:
         """
@@ -156,29 +190,6 @@ class Client(Cmd):
             "ckey": ckey
         }
         self.connection.writeData("_randtopic", data, True)
-        
-    def connectProxy(self, proxy) -> None:
-        """ Care about correct proxy format and pass that data to ConnecitonHandler """
-    
-        if self.dataHandler.get("talking"):
-            print("[!] Najpierw zakończ rozmowę!")
-            return
-    
-        if proxy.find(":") < 0:
-            print("[!] Parametr nie spełnia formatu host:port!")
-
-        else:
-            host, port = proxy.split(":")
-            port = int(port)
-
-            print("[*] Próba łączenia przez proxy: {}:{} (Ctrl+C aby przerwać)".format(host, port))
-
-            if self.connection.connect((host, port)):
-                print("[*] Pomyślnie połączono przez serwer pośredniczący")
-                self.dataHandler.set("proxy", "{}:{}".format(host, port))
-                
-            else:
-                print("[!] Wystapił problem podczas łączenia!")
 
     def default(self, line: str) -> bool:
         """
@@ -213,22 +224,11 @@ class Client(Cmd):
             elif cmd == "count":
                 print("[*] Aktualnie połączonych: {}".format(self.dataHandler.get("count")))
 
-            elif cmd == "proxy":
-                if len(params) > 0:
-                    proxy = params[0]
-                    self.connectProxy(proxy)
+            elif cmd == "impersonate":
+                self.reconnect(True)
 
-                else:
-                    print("[*] Nie podano serwera proxy!")
-
-            elif cmd == "noproxy":
-                if self.dataHandler.get("talking"):
-                    print("[!] Najpierw zakończ rozmowę!")
-                    return
-
-                print("[*] Nawiązywanie bezpośredniego połączenia")
-                self.connection.connect()
-                self.dataHandler.set("proxy", None)
+            elif cmd == "reconnect":
+                self.reconnect(False)
 
             elif cmd == "help":
                 self.do_help(None)
@@ -271,8 +271,8 @@ class Client(Cmd):
 .topic\t\t\twylosowanie tematu rozmowy
 .exit\t\t\tzamyka aplikację
 [*] Funkcje dodatkowe
-.proxy host:port\tnawiązuje połączenie przez server proxy
-.noproxy\t\tnawiązuje ponownie połączenie bezpośrednie
+.impersonate\t\tnawiązuje połączenie przez zafany losowy serwer pośredniczący
+.reconnect\t\tnawiązuje ponownie połączenie bezpośrednie
 .debug\t\t\twyświetla dane techniczne''')
 
     def emptyline(self) -> None:
