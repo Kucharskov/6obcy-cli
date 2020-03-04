@@ -8,6 +8,7 @@ class DataHandler:
         self.data["server"] = None
         self.data["proxy"] = None
         self.data["talking"] = False
+        self.data["obfuscation"] = False
         self.data["ceid"] = 1
 
     def get(self, key: str):

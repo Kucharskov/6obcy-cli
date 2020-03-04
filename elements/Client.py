@@ -97,16 +97,16 @@ class Client(Cmd):
             print("[!] Nie jesteś połączony!")
             return
 
-        #Homoglyph attack
-        #msg = msg.replace("a", "а")
-        #msg = msg.replace("A", "Α")
-        #msg = msg.replace("e", "е")
-        #msg = msg.replace("E", "Ε")
-        #msg = msg.replace("i", "і")
-        #msg = msg.replace("I", "Ι")
-        #msg = msg.replace("d", "ԁ")
-        #msg = msg.replace("h", "һ")
-        #msg = msg.replace("H", "Н")
+        if self.dataHandler.get("obfuscation"):
+            msg = msg.replace("a", "а")
+            msg = msg.replace("A", "Α")
+            msg = msg.replace("e", "е")
+            msg = msg.replace("E", "Ε")
+            msg = msg.replace("i", "і")
+            msg = msg.replace("I", "Ι")
+            msg = msg.replace("d", "ԁ")
+            msg = msg.replace("h", "һ")
+            msg = msg.replace("H", "Н")
 
         ckey = self.dataHandler.get("ckey")
         idn = self.dataHandler.get("idn")
@@ -233,6 +233,16 @@ class Client(Cmd):
             elif cmd == "reconnect":
                 self.reconnect(False)
 
+            elif cmd == "obfuscate":
+                obfuscation = self.dataHandler.get("obfuscation")
+                if obfuscation:
+                    self.dataHandler.set("obfuscation", False)
+                    print("[*] Obfuskacja wyrazów: Wyłączona")
+
+                else:
+                    self.dataHandler.set("obfuscation", True)
+                    print("[*] Obfuskacja wyrazów: Włączona")
+
             elif cmd == "help":
                 self.do_help(None)
 
@@ -274,8 +284,9 @@ class Client(Cmd):
 .topic\t\t\twylosowanie tematu rozmowy
 .exit\t\t\tzamyka aplikację
 [*] Funkcje dodatkowe
-.impersonate\t\tnawiązuje połączenie przez zafany losowy serwer pośredniczący
+.impersonate\t\tnawiązuje połączenie przez zaufany losowy serwer pośredniczący
 .reconnect\t\tnawiązuje ponownie połączenie bezpośrednie
+.obfuscate\t\twłącza/wyłącza obfuskację wyrazów metodą homoglifów
 .debug\t\t\twyświetla dane techniczne''')
 
     def emptyline(self) -> None:
