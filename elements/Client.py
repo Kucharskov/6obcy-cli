@@ -21,23 +21,23 @@ class Client(Cmd):
 
         connectionData =  APIHelpers.getConnectionData()
         self.intro += "[*] Adres serwera: {}".format(connectionData["adress"])
-        
+
         self.connection.connect(connectionData["url"])
         self.dataHandler.set("server", connectionData["adress"])
-        
+
     def reconnect(self, impersonate = False) -> None:
         if self.dataHandler.get("talking"):
             print("[!] Najpierw zakończ rozmowę!")
             return
-    
+
         connectionData =  APIHelpers.getConnectionData()
-        
+
         if impersonate:
             proxy =  APIHelpers.getProxy()
             if proxy == None:
                 print("[!] Wystąpił problem pobierania danych proxy!")
                 return
-            
+
             ip = proxy["ip"]
             port = proxy["port"]
 
@@ -46,14 +46,13 @@ class Client(Cmd):
             if self.connection.connect(connectionData["url"], (ip, port)):
                 print("[*] Pomyślnie połączono przez serwer pośredniczący")
                 self.dataHandler.set("proxy", proxy["adress"])
-                
+
                 print("[*] Adres serwera: {}".format(connectionData["adress"]))
                 self.dataHandler.set("server", connectionData["adress"])
-                
+
             else:
                 print("[!] Wystapił problem podczas łączenia!")
-                
-            
+
         else:
             self.connection.connect(connectionData["url"])
 
@@ -225,6 +224,7 @@ class Client(Cmd):
                 count = self.dataHandler.get("count")
                 if count == None:
                     count = "Brak danych"
+
                 print("[*] Aktualnie połączonych: {}".format(count))
 
             elif cmd == "impersonate":
@@ -274,7 +274,7 @@ class Client(Cmd):
         """
 
         print('''[*] Lista dostępnych poleceń:
-[*] Funkcje zwykłe
+[*] Polecenia zwykłe
 .help\t\t\twyświetla to okno listy poleceń
 .join\t\t\trozpoczyna kolejną rozmowę
 .quit\t\t\tkończy aktualną rozmowę
@@ -283,7 +283,7 @@ class Client(Cmd):
 .report\t\t\tzgłoszenie aktualnego rozmówcy
 .topic\t\t\twylosowanie tematu rozmowy
 .exit\t\t\tzamyka aplikację
-[*] Funkcje dodatkowe
+[*] Polecenia dodatkowe
 .impersonate\t\tnawiązuje połączenie przez zaufany losowy serwer pośredniczący
 .reconnect\t\tnawiązuje ponownie połączenie bezpośrednie
 .obfuscate\t\twłącza/wyłącza obfuskację wyrazów metodą homoglifów

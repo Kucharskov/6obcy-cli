@@ -27,7 +27,7 @@ class APIHelpers:
             "adress": adress,
             "url": url
         }
-        
+
     def getProxy() -> dict:
         try:
             url = "https://api.getproxylist.com/proxy?"
@@ -41,10 +41,9 @@ class APIHelpers:
 
         except:
             return None
-            
+
         return {
             "adress": adress,
             "ip": data["ip"],
             "port": int(data["port"])
         }
-        

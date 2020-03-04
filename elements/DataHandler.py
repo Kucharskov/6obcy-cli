@@ -77,4 +77,3 @@ class DataHandler:
             """ Other unexpected packet """
             #print(data)
             pass
-
