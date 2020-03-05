@@ -25,7 +25,7 @@ class Client(Cmd):
         self.connection.connect(connectionData["url"])
         self.dataHandler.set("server", connectionData["adress"])
 
-    def reconnect(self, impersonate: bool = False) -> None:
+    def reconnect(self, impersonate: bool = False, proxyData: dict = None) -> None:
         if self.dataHandler.get("talking"):
             print("[!] Najpierw zakończ rozmowę!")
             return
@@ -33,7 +33,7 @@ class Client(Cmd):
         connectionData = APIHelpers.getConnectionData()
 
         if impersonate:
-            proxy = APIHelpers.getProxy()
+            proxy = APIHelpers.getProxy() if proxyData is None else proxyData
             if proxy is None:
                 print("[!] Wystąpił problem pobierania danych proxy!")
                 return
@@ -228,7 +228,24 @@ class Client(Cmd):
                 print("[*] Aktualnie połączonych: {}".format(count))
 
             elif cmd == "impersonate":
-                self.reconnect(True)
+                if len(params) > 0:
+                    adress = params[0]
+
+                    try:
+                        ip, port = adress.split(":")
+                        port = int(port)
+
+                        self.reconnect(True, {
+                            "adress": adress,
+                            "ip": ip,
+                            "port": port
+                        })
+
+                    except:
+                        print("[*] Parametr nie spełnia formatu ip:port!")
+
+                else:
+                    self.reconnect(True)
 
             elif cmd == "reconnect":
                 self.reconnect(False)
@@ -283,7 +300,7 @@ class Client(Cmd):
 .topic\t\t\twylosowanie tematu rozmowy
 .exit\t\t\tzamyka aplikację
 [*] Polecenia dodatkowe
-.impersonate\t\tnawiązuje połączenie przez zaufany losowy serwer pośredniczący
+.impersonate [ip:port]\tnawiązuje połączenie przez losowy (lub podany) serwer pośredniczący
 .reconnect\t\tnawiązuje ponownie połączenie bezpośrednie
 .obfuscate\t\twłącza/wyłącza obfuskację wyrazów metodą homoglifów
 .debug\t\t\twyświetla dane techniczne''')
