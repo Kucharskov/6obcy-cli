@@ -2,6 +2,7 @@
 
 ## Legal aspect
 To avoid legal problems (in Poland this is chapter XXXIII of the Penal Code) I contacted the service administration. In response, I obtained permission, which stated "You may experiment in this way, as long as the results do not adversely affect the safety and privacy of our users or otherwise harm our users or us".
+
 Additionally, there was a sentence saying "We recommend not to publish such programs/scripts". Therefore, all this analysis will be made public only then when the system will work differently.
 
 ## Analyze
@@ -116,5 +117,7 @@ I really dont know (but in implementation I send it too as original client sends
 
 ## Summary
 The whole mechanism was realized in JavaScript with additional jQuery libraries. Most likely, in order to make the analysis of the code difficult, it was obfuscated and additionally partially encrypted with Atbash cipher.
+
 The whole communication started with a query to the URL "ajax/addressData", which returned the appropriate address and port of the server to establish connection. This connection is established using the websocket protocol, where the data was sent in a JSON-like format.
+
 In order for the connection not to be interrupted, packets with a specific value to sustain the connection were required ("heartbeat" mechanism). The configuration values of this mechanism, such as the interval and time to send a message, were sent in the first packet received from the server after the connection was established.

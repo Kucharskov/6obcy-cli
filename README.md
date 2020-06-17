@@ -1,6 +1,8 @@
 # 6obcy-cli
 The repository contains a program that was developed as part of the Engineer's Thesis.
+
 The presentation of the work took place on the day: 19.06.2020
+
 The code was made public in this repository on the day: Not now bruh...
 
 After decrypting and analyzing the client code at [6obcy.org](https://6obcy.org/) I came across to a websocket connection. Then I analyzed the network traffic. When I got to know the structure and data kept in packets I decided to write my own terminal client.
