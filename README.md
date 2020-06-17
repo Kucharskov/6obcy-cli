@@ -1,12 +1,18 @@
 # 6obcy-cli
-*some stuff needs to be added here* 
+The repository contains a program that was developed as part of the Engineer's Thesis.
+The presentation of the work took place on the day: 19.06.2020
+The code was made public in this repository on the day: Not now bruh...
 
 After decrypting and analyzing the client code at [6obcy.org](https://6obcy.org/) I came across to a websocket connection. Then I analyzed the network traffic. When I got to know the structure and data kept in packets I decided to write my own terminal client.
 
-Part of the analysis to read [here](https://github.com/Kucharskov/6obcy-cli/blob/master/ANALYZE.md)
+Analysis and legal aspect to read [here](https://github.com/Kucharskov/6obcy-cli/blob/master/ANALYZE.md)
+
+## The idea
+On 6obcy.org chat I met a lot of people, including my ex-fiancée, who was supposed to support me in creating this project. From time to time I look there writing with people. One day, I thought to make a one day long chart to know when there are most people to talk to.
+That's how the analysis of the whole client side started.
 
 ## Usage
-First i suggest install all required packets using command:
+For legal reasons, the application should not work any more. But to run that program firstly I suggest install all required packets using command:
 
 ``pip3 install -r requirements.txt``
 
@@ -30,3 +36,9 @@ I also provided some of my external commands to do some usefull stuff:
 - ``.reconnect`` re-establish direct connection
 - ``.obfuscate`` enables/disables the obfuscation of words using homoglyphs
 - ``.debug`` displays technical data
+
+## Acknowledgements
+Due to the lack of any control over the selected person and the repetition of the interlocutor, I had to spend a lot of time just looking for people who understood my need to test this software.
+I asked each of the testers, if I could, if they wanted to be mentioned in the acknowledgments. In order to avoid legal problems concerning publication of personal data of third parties, in case of consent, I asked for any pseudonym.
+At this point, I would like to thank very much, above all to testers who introduced themselves as: AMI, Antkovsky, Milka, Mi³ySeba, Nesska, PasGGuda, Talib22 and Venour, because without them I wouldn't be able to perform such detailed tests of the created application. Apart from the above mentioned, thanks are also for the administration of the 6obcy and to those who did not manage or did not want to be mentioned.
+Thank you for the many good words, the jokes and the multitude of symbols they sent out, because in that way I got the support that someone else was supposed to give me.

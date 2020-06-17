@@ -1,11 +1,8 @@
 # 6obcy analyze
 
-## The idea
-On 6obcy.org chat I met a lot of people, including my ex-fiancée, who was supposed to support me in creating this project. From time to time I look there writing with people. One day, I thought to make a one day long chart to know when there are most people to talk to.
-That's how the analysis of the whole client side started.
-
 ## Legal aspect
-*some stuff needs to be added here* but the Administrator was notified.
+To avoid legal problems (in Poland this is chapter XXXIII of the Penal Code) I contacted the service administration. In response, I obtained permission, which stated "You may experiment in this way, as long as the results do not adversely affect the safety and privacy of our users or otherwise harm our users or us".
+Additionally, there was a sentence saying "We recommend not to publish such programs/scripts". Therefore, all this analysis will be made public only then when the system will work differently.
 
 ## Analyze
 In the HTML code I noticed that the number of logged in users was always 1000, even though it was refreshed live on the page. It directed me to the JavaScript code and for the search of the right request. When I found ``scriptBoxEio.js`` file, which was the only non-standard file besides default external libraries, I decided to analyze it.
@@ -116,3 +113,8 @@ I really dont know (but in implementation I send it too as original client sends
 ```
 4{"ev_name":"_owack"}
 ```
+
+## Summary
+The whole mechanism was realized in JavaScript with additional jQuery libraries. Most likely, in order to make the analysis of the code difficult, it was obfuscated and additionally partially encrypted with Atbash cipher.
+The whole communication started with a query to the URL "ajax/addressData", which returned the appropriate address and port of the server to establish connection. This connection is established using the websocket protocol, where the data was sent in a JSON-like format.
+In order for the connection not to be interrupted, packets with a specific value to sustain the connection were required ("heartbeat" mechanism). The configuration values of this mechanism, such as the interval and time to send a message, were sent in the first packet received from the server after the connection was established.
