@@ -10,7 +10,7 @@ After decrypting and analyzing the client code at [6obcy.org](https://6obcy.org/
 Analysis and legal aspect to read [here](https://github.com/Kucharskov/6obcy-cli/blob/master/ANALYZE.md)
 
 ## The idea
-On 6obcy.org chat I met a lot of people, including my ex-fiancÈe, who was supposed to support me in creating this project. From time to time I look there writing with people. One day, I thought to make a one day long chart to know when there are most people to talk to.
+On 6obcy.org chat I met a lot of people, including my ex-fianc√©e, who was supposed to support me in creating this project. From time to time I look there writing with people. One day, I thought to make a one day long chart to know when there are most people to talk to.
 That's how the analysis of the whole client side started.
 
 ## Usage
@@ -44,6 +44,6 @@ Due to the lack of any control over the selected person and the repetition of th
 
 I asked each of the testers, if I could, if they wanted to be mentioned in the acknowledgments. In order to avoid legal problems concerning publication of personal data of third parties, in case of consent, I asked for any pseudonym.
 
-At this point, I would like to thank very much, above all to testers who introduced themselves as: **AMI**, **Antkovsky**, **Milka**, **Mi≥ySeba**, **Nesska**, **PasGGuda**, **Talib22** and **Venour**, because without them I wouldn't be able to perform such detailed tests of the created application. Apart from the above mentioned, thanks are also for the administration of the 6obcy and to those who did not manage or did not want to be mentioned.
+At this point, I would like to thank very much, above all to testers who introduced themselves as: **AMI**, **Antkovsky**, **Milka**, **Mi≈ÇySeba**, **Nesska**, **PasGGuda**, **Talib22** and **Venour**, because without them I wouldn't be able to perform such detailed tests of the created application. Apart from the above mentioned, thanks are also for the administration of the 6obcy and to those who did not manage or did not want to be mentioned.
 
 Thank you for the many good words, the jokes and the multitude of symbols they sent out, because in that way I got the support that someone else was supposed to give me.
