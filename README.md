@@ -3,7 +3,7 @@ The repository contains a program that was developed as part of the Engineer's T
 
 The presentation of the work took place on the day: **19.06.2020**
 
-The code was made public in this repository on the day: **Not now bruh...**
+The code was made public in this repository on the day: **10.03.2021** due to minor changes on 6obcy that cause the script to not work.
 
 After decrypting and analyzing the client code at [6obcy.org](https://6obcy.org/) I came across to a websocket connection. Then I analyzed the network traffic. When I got to know the structure and data kept in packets I decided to write my own terminal client.
 
